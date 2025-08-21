@@ -1,18 +1,32 @@
-import asyncio, yaml, httpx
-from pathlib import Path
+import asyncio
+import aiohttp
+from aiolimiter import AsyncLimiter
 
-CONFIG = Path(__file__).parent / "companies.yaml"
+# limit to 5 requests per second
+limiter = AsyncLimiter(max_rate=5, time_period=1)
 
-async def main(api_base="http://localhost:8000"):
-    conf = yaml.safe_load(CONFIG.read_text())
-    async with httpx.AsyncClient(timeout=None) as client:
-        for entry in conf.get("companies", []):
-            source = entry["source"]
-            company = entry["company"]  # e.g., lever handle or greenhouse board token
-            url = f"{api_base}/api/ingest/{source}/{company}"
-            print("->", url)
-            r = await client.post(url)
-            print(r.status_code, r.json())
+async def fetch(session, url):
+    async with limiter:  # ensures rate limit
+        try:
+            async with session.get(url, timeout=20) as response:
+                if response.status == 200:
+                    return await response.text()
+                else:
+                    print(f"⚠️ Error {response.status} for {url}")
+        except Exception as e:
+            print(f"❌ Request failed for {url}: {e}")
+        return None
+
+async def scrape_all(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch(session, url) for url in urls]
+        return await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    urls = [
+        "https://www.modernatx.com/careers",
+        "https://www.gilead.com/careers",
+        "https://www.regeneron.com/careers"
+    ]
+    results = asyncio.run(scrape_all(urls))
+    print(f"Got {sum(r is not None for r in results)} pages successfully.")

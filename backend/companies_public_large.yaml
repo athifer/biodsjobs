@@ -1,0 +1,23 @@
+# Add companies here. 'company' is the Lever handle or Greenhouse board token.
+# Examples are placeholders; replace with real ones you care about.
+companies:
+  - { source: lever, company: gilead-sciences-inc }
+  - { source: lever, company: amgen }
+  - { source: lever, company: biogen }
+  - { source: lever, company: incyte }
+  - { source: lever, company: vertex-pharmaceuticals }
+  - { source: lever, company: alnylam-pharmaceuticals }
+  - { source: lever, company: modernatx }
+  - { source: lever, company: illumina }
+  - { source: lever, company: arcutis-biotherapeutics }
+  - { source: lever, company: beone-medicines }
+  - { source: greenhouse, company: eli-lilly-and-company }
+  - { source: greenhouse, company: abbvie }
+  - { source: greenhouse, company: merck-co }
+  - { source: greenhouse, company: pfizer }
+  - { source: greenhouse, company: bristol-myers-squibb }
+  - { source: greenhouse, company: johnson--johnson }
+  - { source: greenhouse, company: roivant-sciences }
+  - { source: greenhouse, company: exact-sciences }
+  - { source: greenhouse, company: insmed }
+  - { source: greenhouse, company: medpace }

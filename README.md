@@ -1,4 +1,4 @@
-# bioinfojobs (starter)
+# biodsjobs (starter)
 
 A minimal end-to-end prototype for aggregating bioinformatics roles from common ATS sources (Lever, Greenhouse).
 
@@ -9,7 +9,8 @@ A minimal end-to-end prototype for aggregating bioinformatics roles from common 
 cd backend
 python -m venv .venv && source .venv/bin/activate  # (Windows: .venv\Scripts\activate)
 pip install -r requirements.txt
-uvicorn app:app --reload --port 8000
+cd ..
+uvicorn backend.app:app --reload --port 8000
 ```
 
 ### 2) Ingest some companies
