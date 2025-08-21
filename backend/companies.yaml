@@ -1,0 +1,5 @@
+# Add companies here. 'company' is the Lever handle or Greenhouse board token.
+# Examples are placeholders; replace with real ones you care about.
+companies:
+  - { source: lever, company: recursionsciences }   # example handle; change
+  - { source: greenhouse, company: modernatx }      # example token; change

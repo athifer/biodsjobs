@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>bioinfojobs</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 24px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .search { display: flex; gap: 8px; margin-bottom: 16px; }
+    input, select, button { padding: 10px; font-size: 16px; }
+    .job { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .job h3 { margin: 0 0 8px 0; }
+    .pill { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #f3f4f6; margin-right: 6px; }
+    .muted { color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>bioinfojobs</h1>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search (e.g., NGS, scRNA-seq, ML)" />
+      <select id="source">
+        <option value="">All sources</option>
+        <option value="lever">Lever</option>
+        <option value="greenhouse">Greenhouse</option>
+      </select>
+      <button onclick="loadJobs()">Search</button>
+    </div>
+    <div class="muted">Tip: populate data by running the backend and executing <code>python ingestor.py</code> after adding companies.</div>
+    <div id="list"></div>
+  </div>
+
+<script>
+async function loadJobs() {
+  const q = document.getElementById('q').value;
+  const source = document.getElementById('source').value;
+  const params = new URLSearchParams();
+  if (q) params.append('q', q);
+  if (source) params.append('source', source);
+  const res = await fetch(`http://localhost:8000/api/jobs?${params.toString()}`);
+  const data = await res.json();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  data.forEach(j => {
+    const div = document.createElement('div');
+    div.className = 'job';
+    const date = new Date(j.posted_at).toLocaleDateString();
+    div.innerHTML = `
+      <h3><a href="${j.url}" target="_blank" rel="noopener noreferrer">${j.title}</a></h3>
+      <div class="muted">${j.company} • ${j.location || 'Remote/—'} • ${date}</div>
+      <div style="margin-top:8px">
+        <span class="pill">${j.source}</span>
+        <span class="pill">score: ${j.score}</span>
+      </div>
+      <p style="margin-top:10px">${(j.description || '').slice(0, 220)}...</p>
+    `;
+    list.appendChild(div);
+  });
+}
+
+loadJobs();
+</script>
+</body>
+</html>
