@@ -7,58 +7,267 @@
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 24px; }
     .container { max-width: 960px; margin: 0 auto; }
-    .search { display: flex; gap: 8px; margin-bottom: 16px; }
+    .search { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
     input, select, button { padding: 10px; font-size: 16px; }
     .job { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
     .job h3 { margin: 0 0 8px 0; }
     .pill { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #f3f4f6; margin-right: 6px; }
+    .stats { font-size: 14px; color: #374151; }
+    .stats strong { color: #111827; }
     .muted { color: #6b7280; font-size: 14px; }
+    .filter-group { display: flex; flex-direction: column; min-width: 200px; }
+    .filter-label { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .checkbox-group { max-height: 150px; overflow-y: auto; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px; background: white; }
+    .checkbox-item { display: flex; align-items: center; margin-bottom: 4px; }
+    .checkbox-item input[type="checkbox"] { margin-right: 8px; }
+    .checkbox-item label { font-size: 14px; cursor: pointer; }
+    .selected-count { font-size: 12px; color: #6b7280; margin-top: 4px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>bioinfojobs</h1>
+    <h1>bioinfojobs.com</h1>
+    
+    <!-- Summary Statistics -->
+    <div id="stats" class="stats" style="background: #f9fafb; padding: 16px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap;">
+      <div>📊 <strong id="total-jobs">-</strong> jobs</div>
+      <div>🏢 <strong id="total-companies">-</strong> companies</div>
+      <div>🔗 <strong id="total-sources">-</strong> sources</div>
+      <div>🕒 Last updated: <strong id="last-updated">-</strong></div>
+    </div>
+    
     <div class="search">
       <input id="q" type="search" placeholder="Search (e.g., NGS, scRNA-seq, ML)" />
-      <select id="source">
-        <option value="">All sources</option>
-        <option value="lever">Lever</option>
-        <option value="greenhouse">Greenhouse</option>
+      
+      <div class="filter-group">
+        <div class="filter-label">Sources</div>
+        <div class="checkbox-group" id="source-checkboxes">
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-lever" value="lever">
+            <label for="source-lever">Lever</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-greenhouse" value="greenhouse">
+            <label for="source-greenhouse">Greenhouse</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-ycombinator" value="ycombinator">
+            <label for="source-ycombinator">Y Combinator</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-workday" value="workday">
+            <label for="source-workday">Workday</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-angellist" value="angellist">
+            <label for="source-angellist">AngelList</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="source-bamboo" value="bamboo">
+            <label for="source-bamboo">BambooHR</label>
+          </div>
+        </div>
+        <div class="selected-count" id="source-count">All sources</div>
+      </div>
+      
+      <select id="days">
+        <option value="">All time</option>
+        <option value="1">Last 24 hours</option>
+        <option value="7">Last 7 days</option>
+        <option value="14">Last 14 days</option>
+        <option value="30">Last 30 days</option>
       </select>
+      
+      <div class="filter-group">
+        <div class="filter-label">Locations</div>
+        <div class="checkbox-group" id="location-checkboxes">
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-remote" value="remote">
+            <label for="location-remote">Remote</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-sf" value="san francisco bay area">
+            <label for="location-sf">San Francisco Bay Area</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-boston" value="boston">
+            <label for="location-boston">Boston/Cambridge</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-nyc" value="new york">
+            <label for="location-nyc">New York City</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-seattle" value="seattle">
+            <label for="location-seattle">Seattle</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-la" value="los angeles">
+            <label for="location-la">Los Angeles</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-sd" value="san diego">
+            <label for="location-sd">San Diego</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-chicago" value="chicago">
+            <label for="location-chicago">Chicago</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="location-dc" value="washington dc">
+            <label for="location-dc">Washington DC</label>
+          </div>
+        </div>
+        <div class="selected-count" id="location-count">All locations</div>
+      </div>
+      
       <button onclick="loadJobs()">Search</button>
     </div>
-    <div class="muted">Tip: populate data by running the backend and executing <code>python ingestor.py</code> after adding companies.</div>
+    <div class="muted">Tip: Search for specific bioinformatics terms (e.g., "genomics", "RNA-seq", "computational biology") for best results. Jobs are ranked by relevance.</div>
     <div id="list"></div>
   </div>
 
 <script>
+// Function to clean HTML content
+function cleanHtmlText(html) {
+  if (!html) return '';
+  
+  // Create a temporary div to parse HTML
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+  
+  // Get text content (removes HTML tags)
+  let text = temp.textContent || temp.innerText || '';
+  
+  // Decode HTML entities
+  const entityMap = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&nbsp;': ' ',
+    '&hellip;': '…'
+  };
+  
+  text = text.replace(/&[a-zA-Z0-9#]+;/g, (entity) => {
+    return entityMap[entity] || entity;
+  });
+  
+  // Clean up extra whitespace
+  text = text.replace(/\s+/g, ' ').trim();
+  
+  return text;
+}
+
+// Function to get selected checkbox values
+function getSelectedValues(groupId) {
+  const checkboxes = document.querySelectorAll(`#${groupId} input[type="checkbox"]:checked`);
+  return Array.from(checkboxes).map(cb => cb.value);
+}
+
+// Function to update selection counts
+function updateSelectionCounts() {
+  const sourceSelected = getSelectedValues('source-checkboxes');
+  const locationSelected = getSelectedValues('location-checkboxes');
+  
+  document.getElementById('source-count').textContent = 
+    sourceSelected.length === 0 ? 'All sources' : `${sourceSelected.length} selected`;
+  
+  document.getElementById('location-count').textContent = 
+    locationSelected.length === 0 ? 'All locations' : `${locationSelected.length} selected`;
+}
+
+// Add event listeners to checkboxes
+document.addEventListener('DOMContentLoaded', function() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectionCounts);
+  });
+  updateSelectionCounts();
+});
+
+async function loadStats() {
+  try {
+    const res = await fetch('http://localhost:8000/api/stats');
+    const stats = await res.json();
+    
+    document.getElementById('total-jobs').textContent = stats.total_jobs;
+    document.getElementById('total-companies').textContent = stats.total_companies;
+    document.getElementById('total-sources').textContent = stats.total_sources;
+    
+    if (stats.latest_job_date) {
+      const lastUpdated = new Date(stats.latest_job_date).toLocaleDateString();
+      document.getElementById('last-updated').textContent = lastUpdated;
+    }
+  } catch (error) {
+    console.error('Error loading stats:', error);
+  }
+}
+
 async function loadJobs() {
   const q = document.getElementById('q').value;
-  const source = document.getElementById('source').value;
+  const days = document.getElementById('days').value;
+  
+  // Get selected sources and locations
+  const sources = getSelectedValues('source-checkboxes');
+  const locations = getSelectedValues('location-checkboxes');
+  
   const params = new URLSearchParams();
   if (q) params.append('q', q);
-  if (source) params.append('source', source);
+  if (days) params.append('days', days);
+  
+  // Add multiple sources
+  sources.forEach(source => params.append('source', source));
+  
+  // Add multiple locations  
+  locations.forEach(location => params.append('location', location));
+  
   const res = await fetch(`http://localhost:8000/api/jobs?${params.toString()}`);
   const data = await res.json();
   const list = document.getElementById('list');
   list.innerHTML = '';
+  
+  if (data.length === 0) {
+    list.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 40px;">No jobs found matching your criteria. Try adjusting your search terms or filters.</div>';
+    return;
+  }
+  
   data.forEach(j => {
     const div = document.createElement('div');
     div.className = 'job';
     const date = new Date(j.posted_at).toLocaleDateString();
+    const daysAgo = Math.floor((new Date() - new Date(j.posted_at)) / (1000 * 60 * 60 * 24));
+    const timeAgo = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`;
+    
+    // Color code relevance score
+    let scoreDisplay, scoreColor;
+    if (j.score === null || j.score === undefined) {
+      scoreDisplay = '-';
+      scoreColor = '#6b7280';
+    } else {
+      scoreDisplay = Math.round(j.score);
+      scoreColor = j.score >= 70 ? '#059669' : j.score >= 40 ? '#d97706' : '#6b7280';
+    }
+    
+    // Clean the description text
+    const cleanDescription = cleanHtmlText(j.description || '');
+    
     div.innerHTML = `
       <h3><a href="${j.url}" target="_blank" rel="noopener noreferrer">${j.title}</a></h3>
-      <div class="muted">${j.company} • ${j.location || 'Remote/—'} • ${date}</div>
+      <div class="muted">${j.company} • ${j.location || 'Remote/—'} • ${date} (${timeAgo})</div>
       <div style="margin-top:8px">
         <span class="pill">${j.source}</span>
-        <span class="pill">score: ${j.score}</span>
+        <span class="pill" style="background-color: ${scoreColor}; color: white;">relevance: ${scoreDisplay}</span>
       </div>
-      <p style="margin-top:10px">${(j.description || '').slice(0, 220)}...</p>
+      <p style="margin-top:10px">${cleanDescription.slice(0, 220)}...</p>
     `;
     list.appendChild(div);
   });
 }
 
+// Load stats and jobs on page load
+loadStats();
 loadJobs();
 </script>
 </body>

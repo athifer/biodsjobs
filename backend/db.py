@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, UniqueConstraint, Float
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
-from .settings import settings
+from settings import settings
 
 engine = create_engine(settings.DATABASE_URL, connect_args={"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
@@ -25,3 +25,20 @@ class Job(Base):
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+
+def upsert_job(session, job_data):
+    """Insert or update a job in the database."""
+    existing = session.query(Job).filter(Job.url == job_data["url"]).first()
+    if existing:
+        for field, value in job_data.items():
+            if hasattr(existing, field):
+                setattr(existing, field, value)
+        session.add(existing)
+        session.commit()
+        session.refresh(existing)
+        return existing
+    row = Job(**job_data)
+    session.add(row)
+    session.commit()
+    session.refresh(row)
+    return row

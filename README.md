@@ -1,43 +1,76 @@
-# biodsjobs (starter)
 
-A minimal end-to-end prototype for aggregating bioinformatics roles from common ATS sources (Lever, Greenhouse).
+# bioinfojobs.com
+
+An open-source website for bioinformatics jo## Ethics & Compliance
+- **Respects Terms of Service**: Only scrapes from sources that provide public APIs or explicitly allow programmatic access.
+- **Rate limiting**: All requests are rate-limited to avoid overwhelming servers.
+- **Legal sources only**: LinkedIn, Indeed, Glassdoor, and similar sites are excluded due to ToS restrictions.
+- **Preferred sources**: Company ATS systems (Lever, Greenhouse), Y Combinator, and company career pages.
+- Provide a DMCA/contact page for takedown or update requests.nting, aggregating relevant roles from pharma/biotech company sites and ATS sources (Lever, Greenhouse, Y Combinator). Focuses on legally accessible sources with public APIs or job feeds, avoiding sites that prohibit scraping.
+
+## Features
+- Aggregates jobs from company career pages and ATS sources with public APIs.
+- Extracts job title, company, post date, source, description, and relevance score.
+- Deduplicates overlapping listings.
+- Fast keyword search and filtering by source/company.
+- **Automatic updates every 4 hours** - jobs are refreshed automatically in the background.
+- **Legally compliant** - only uses sources that allow programmatic access (Lever, Greenhouse, Y Combinator).
+- Extensible: add new compliant scrapers for more sources easily.
 
 ## Quickstart
 
-### 1) Backend
+### 1) Backend Setup
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate  # (Windows: .venv\Scripts\activate)
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cd ..
-uvicorn backend.app:app --reload --port 8000
 ```
 
-### 2) Ingest some companies
-Edit `backend/companies.yaml` to include the ATS source and company handle/token.
-Examples:
+### 2) Configure Companies & Sources
+Edit YAML files in `backend/` (e.g. `companies_all.yaml`) to add companies and sources. Example:
 ```yaml
-companies:
-  - { source: lever, company: recursionsciences }   # change to real handle
-  - { source: greenhouse, company: modernatx }      # change to real board token
+greenhouse:
+  - company: Benchling
+    token: benchling
+    careers_url: https://boards.greenhouse.io/benchling
+lever:
+  - company: GRAIL
+    host: jobs.lever.co/grailbio
+    careers_url: https://jobs.lever.co/grailbio
 ```
-Then run:
+
+### 3) Ingest Jobs
+Run the ingestion script to fetch and store jobs in the database:
 ```bash
-cd backend
 python ingestor.py
 ```
 
-### 3) Frontend
-Open `frontend/index.html` in your browser. It queries `http://localhost:8000/api/jobs`.
+### 4) Run the API Server
+```bash
+uvicorn app:app --reload --port 8000
+```
 
-## Notes
+### 5) Frontend
+Open `frontend/index.html` in your browser. It queries `http://localhost:8000/api/jobs` for live job data.
 
-- Relevance scoring is a simple keyword-based heuristic. Tune keywords in `backend/settings.py`.
-- Storage is SQLite by default (`bioinfojobs.db`). Swap `DATABASE_URL` to Postgres for production.
-- Add new sources by creating a module in `backend/scrapers/` and wiring it in `app.py`.
+## Adding New Sources
+- To add a new compliant job board or ATS source, create a new module in `backend/scrapers/` (e.g. `workday.py`, `bamboohr.py`).
+- Only add sources that provide public APIs, RSS feeds, or explicitly allow programmatic access.
+- Implement a function `fetch_company_jobs(company)` or similar, returning a list of job dicts.
+- Wire the new scraper into `ingestor.py`, `scheduler.py`, and/or `app.py`.
+
+## Relevance Scoring
+- Keywords for scoring are set in `backend/settings.py`.
+- Tune to prioritize skills, technologies, or job titles of interest.
+
+## Database
+- Uses SQLite by default (`bioinfojobs.db`).
+- Switch to Postgres by changing `DATABASE_URL` in `settings.py` for production.
 
 ## Ethics & Compliance
-
-- Always respect each source’s Terms of Service and robots.txt. Many sites (e.g., LinkedIn/Indeed) prohibit scraping. Prefer official APIs, RSS feeds, or company ATS JSON endpoints (Lever/Greenhouse are widely used and provide public endpoints).
-- Cache responses, rate-limit, and identify your crawler in headers if you add HTTP scraping.
+- Respect each source’s Terms of Service and robots.txt. Many sites (e.g., LinkedIn/Indeed) prohibit scraping; prefer official APIs, RSS feeds, or public endpoints.
+- Cache responses, rate-limit requests, and identify your crawler in headers if scraping.
 - Provide a DMCA/contact page for takedown or update requests.
+
+## Contributing
+- PRs welcome for new sources, bug fixes, and features!

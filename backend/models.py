@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
 
 class JobIn(BaseModel):
     title: str
@@ -15,3 +15,4 @@ class JobIn(BaseModel):
 class JobOut(JobIn):
     id: int
     posted_at: datetime
+    score: Optional[Union[float, None]] = None  # Allow None for when no search query
