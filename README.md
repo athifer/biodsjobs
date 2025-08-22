@@ -1,5 +1,5 @@
 
-# bioinfojobs.com
+# biodsjobs.com
 
 An open-source website for bioinformatics jo## Ethics & Compliance
 - **Respects Terms of Service**: Only scrapes from sources that provide public APIs or explicitly allow programmatic access.
@@ -64,7 +64,7 @@ Open `frontend/index.html` in your browser. It queries `http://localhost:8000/ap
 - Tune to prioritize skills, technologies, or job titles of interest.
 
 ## Database
-- Uses SQLite by default (`bioinfojobs.db`).
+- Uses SQLite by default (`biodsjobs.db`).
 - Switch to Postgres by changing `DATABASE_URL` in `settings.py` for production.
 
 ## Ethics & Compliance

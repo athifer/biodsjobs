@@ -22,6 +22,6 @@ echo "Running initial job ingestion..."
 python ingestor.py
 
 # Start the API server with automatic updates every 4 hours
-echo "Starting bioinfojobs API server on http://localhost:8000"
+echo "Starting biodsjobs API server on http://localhost:8000"
 echo "Jobs will be automatically updated every 4 hours"
 uvicorn app:app --reload --port 8000

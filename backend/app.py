@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     # Shutdown
     stop_scheduler(scheduler)
 
-app = FastAPI(title="bioinfojobs API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="biodsjobs API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

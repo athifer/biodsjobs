@@ -1,7 +1,7 @@
 # Job Source Audit Report
 
 ## Summary
-Audited and expanded the bioinfojobs.com job aggregation system with improved scrapers and additional sources.
+Audited and expanded the biodsjobs.com job aggregation system with improved scrapers and additional sources.
 
 ## Current Status (✅ Working Well)
 
