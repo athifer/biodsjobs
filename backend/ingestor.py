@@ -12,6 +12,8 @@ from scrapers import ycombinator as yc_scraper
 from scrapers import workday as workday_scraper
 from scrapers import angellist as angellist_scraper
 from scrapers import bamboo as bamboo_scraper
+from scrapers import comprehensive as comprehensive_scraper
+from scrapers import talentbrew as talentbrew_scraper
 from util import score_job
 
 def load_companies():
@@ -100,7 +102,12 @@ def run_ingestion_with_cleanup():
         jobs = []
         try:
             if source == "lever":
-                company_token = entry.get("token", company)
+                # Extract token from host field (format: jobs.lever.co/TOKEN)
+                if "host" in entry:
+                    host = entry["host"]
+                    company_token = host.split("/")[-1] if "/" in host else host
+                else:
+                    company_token = entry.get("token", company)
                 jobs = asyncio.run(lever_scraper.fetch_company_jobs(company_token))
             elif source == "greenhouse":
                 company_token = entry.get("token", company)
@@ -116,6 +123,12 @@ def run_ingestion_with_cleanup():
             elif source == "bamboo":
                 company_token = entry.get("token", company)
                 jobs = asyncio.run(bamboo_scraper.fetch_company_jobs(company_token))
+            elif source == "comprehensive":
+                company_token = entry.get("token", company)
+                jobs = asyncio.run(comprehensive_scraper.fetch_company_jobs(company_token))
+            elif source == "talentbrew":
+                company_token = entry.get("token", company)
+                jobs = asyncio.run(talentbrew_scraper.fetch_company_jobs(company_token))
             # Add more sources here if needed
         except Exception as e:
             print(f"❌ Error fetching jobs for {company} ({source}): {e}")

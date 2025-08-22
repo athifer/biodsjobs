@@ -1,110 +1,242 @@
+"""
+Workday scraper for companies using Workday ATS platform.
+"""
+
+import asyncio
 import httpx
+import re
+from typing import List, Dict, Any
 from datetime import datetime
-from typing import List, Dict
 from bs4 import BeautifulSoup
 
-async def fetch_company_jobs(company_token: str) -> List[Dict]:
-    """Fetch jobs from Workday for a given company.
-    Workday format: https://{company}.wd1.myworkdayjobs.com/{careers_site}
+async def fetch_company_jobs(company_token: str) -> List[Dict[str, Any]]:
     """
-    # Map company tokens to their workday URLs
-    workday_urls = {
-        "gilead": "https://gilead.wd1.myworkdayjobs.com/gileadcareers",
-        "amgen": "https://careers.amgen.com/en/search-jobs",
-        "merck": "https://jobs.merck.com/us/en", 
-        "pfizer": "https://pfizer.wd1.myworkdayjobs.com/PfizerCareers",
-        "bms": "https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS",
-        "moderna": "https://modernatx.wd1.myworkdayjobs.com/M_US",
-        "alnylam": "https://alnylam.wd5.myworkdayjobs.com/Alnylam_Careers",
-        "lilly": "https://eli-lilly.wd1.myworkdayjobs.com/LillyJobs",
-        "abbvie": "https://abbvie.wd1.myworkdayjobs.com/External",
-        "jnj": "https://jnj.wd1.myworkdayjobs.com/Careers",
-        "incyte": "https://incyte.wd1.myworkdayjobs.com/IncyteCareers"
+    Fetch jobs from Workday career sites.
+    """
+    
+    # Company configurations for Workday sites - matching companies_all.yaml
+    workday_companies = {
+        "illumina": {
+            "url": "https://illumina.wd1.myworkdayjobs.com/illumina-careers",
+            "company_name": "Illumina"
+        },
+        "gilead": {
+            "url": "https://gilead.wd1.myworkdayjobs.com/gileadcareers", 
+            "company_name": "Gilead"
+        },
+        "pfizer": {
+            "url": "https://pfizer.wd1.myworkdayjobs.com/PfizerCareers",
+            "company_name": "Pfizer"
+        },
+        "bms": {
+            "url": "https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS",
+            "company_name": "Bristol Myers Squibb"
+        },
+        "moderna": {
+            "url": "https://modernatx.wd1.myworkdayjobs.com/M_tx",
+            "company_name": "Moderna"
+        },
+        "vertex": {
+            "url": "https://vrtx.wd501.myworkdayjobs.com/vertex_careers",
+            "company_name": "Vertex"
+        },
+        "alnylam": {
+            "url": "https://alnylam.wd5.myworkdayjobs.com/Alnylam_Careers",
+            "company_name": "Alnylam"
+        },
+        "tempus": {
+            "url": "https://tempus.wd5.myworkdayjobs.com/en-US/Tempus",
+            "company_name": "Tempus"
+        },
+        "biogen": {
+            "url": "https://biogen.wd1.myworkdayjobs.com/en-US/Biogen_External_Career_Site",
+            "company_name": "Biogen"
+        },
+        "lilly": {
+            "url": "https://lillycareers.wd5.myworkdayjobs.com/EliLillyJobs",
+            "company_name": "Eli Lilly"
+        },
+        "abbvie": {
+            "url": "https://abbvie.wd1.myworkdayjobs.com/External",
+            "company_name": "AbbVie"
+        },
+        "jnj": {
+            "url": "https://jobs.jnj.com/",
+            "company_name": "Johnson & Johnson"
+        },
+        "incyte": {
+            "url": "https://incyte.wd1.myworkdayjobs.com/en-US/IncyteCareers",
+            "company_name": "Incyte"
+        },
+        "amgen": {
+            "url": "https://careers.amgen.com/",
+            "company_name": "Amgen"
+        },
+        "merck": {
+            "url": "https://jobs.merck.com/",
+            "company_name": "Merck"
+        }
     }
     
-    base_url = workday_urls.get(company_token)
-    if not base_url:
+    company_info = workday_companies.get(company_token)
+    if not company_info:
+        print(f"Company {company_token} not found in workday configuration")
         return []
-    
-    # Try to get jobs from Workday's JSON API if available
+
+    jobs = []
     try:
-        # Some Workday sites have JSON APIs, but they're often protected
-        # For now, we'll scrape the HTML and look for specific biotech-related terms
-        async with httpx.AsyncClient(timeout=30) as client:
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        async with httpx.AsyncClient(
+            timeout=30,
+            follow_redirects=True,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
             }
+        ) as client:
             
-            # Try the main jobs page first
-            r = await client.get(base_url, headers=headers)
-            r.raise_for_status()
+            print(f"Fetching jobs from {company_info['url']} for {company_token}")
             
-            soup = BeautifulSoup(r.text, "html.parser")
-            jobs = []
+            # Get the main jobs page 
+            response = await client.get(company_info['url'])
+            response.raise_for_status()
             
-            # Look for job listings - Workday uses various selectors
-            job_selectors = [
-                '[data-automation-id="jobTitle"]',
-                '.css-ur1szg',
-                '[data-automation-id="searchResultItem"]',
-                '.PNXV4EXC4NI-1-WP',
-                'tr[data-automation-id]'
-            ]
+            print(f"Response status: {response.status_code}")
             
-            for selector in job_selectors:
-                job_elements = soup.select(selector)
-                if job_elements:
-                    break
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            for job_elem in job_elements[:20]:  # Limit to first 20 jobs
+            # Multiple strategies to find jobs with better selectors
+            
+            # Strategy 1: Look for Workday job cards/items with more patterns
+            job_cards = soup.find_all(['li', 'div', 'tr'], attrs={
+                'data-automation-id': lambda x: x and any(pattern in x.lower() for pattern in 
+                    ['job', 'posting', 'searchresult', 'listitem', 'card'])
+            })
+            
+            # Also try common Workday selectors
+            if not job_cards:
+                job_cards = soup.select('[data-automation-id*="job"]')
+            if not job_cards:
+                job_cards = soup.select('.css-1d6urnp, .css-k008qs, [class*="job"], [class*="posting"]')
+            
+            print(f"Found {len(job_cards)} job cards with automation IDs")
+            
+            # Strategy 2: Look for links that contain job-related patterns
+            if not job_cards:
+                all_links = soup.find_all('a', href=True)
+                job_cards = [link for link in all_links if 
+                           any(pattern in link.get('href', '').lower() for pattern in 
+                               ['/job/', 'jobdetail', 'posting', 'position']) and
+                           len(link.get_text(strip=True)) > 10]
+                print(f"Found {len(job_cards)} potential job links")
+            
+            # Strategy 3: Look for any text elements with job titles and biotech keywords
+            if not job_cards:
+                biotech_keywords = ['scientist', 'research', 'data', 'engineer', 'analyst', 'director', 
+                                   'manager', 'bioinformatics', 'computational', 'clinical', 'genomics']
+                all_text_elements = soup.find_all(['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4'], 
+                    string=re.compile(r'(' + '|'.join(biotech_keywords) + ')', re.I))
+                job_cards = []
+                for elem in all_text_elements:
+                    parent = elem.find_parent(['li', 'div', 'tr', 'article'])
+                    if parent and len(elem.get_text(strip=True)) > 10:
+                        job_cards.append(parent)
+                job_cards = list(set(job_cards))  # Remove duplicates
+                print(f"Found {len(job_cards)} elements with biotech keywords")
+            
+            for job_card in job_cards[:30]:  # Process up to 30 items
                 try:
-                    # Extract job title
-                    title_elem = job_elem.select_one('[data-automation-id="jobTitle"]') or job_elem.select_one('a')
-                    title = title_elem.get_text(strip=True) if title_elem else ""
+                    # Extract title
+                    title = ""
+                    title_selectors = [
+                        '[data-automation-id*="title"]',
+                        '[data-automation-id="jobTitle"]',
+                        'h3', 'h4', 'a'
+                    ]
                     
-                    # Extract job URL
-                    link_elem = job_elem.select_one('a')
+                    for selector in title_selectors:
+                        title_elem = job_card.select_one(selector)
+                        if title_elem:
+                            title = title_elem.get_text(strip=True)
+                            if len(title) > 5:  # Valid title
+                                break
+                    
+                    # If no good title found, try the job card text itself
+                    if not title or len(title) < 5:
+                        title = job_card.get_text(strip=True)
+                        # Take first reasonable line as title
+                        lines = [line.strip() for line in title.split('\n') if line.strip()]
+                        title = lines[0] if lines else ""
+                    
+                    # Extract URL
                     job_url = ""
-                    if link_elem and link_elem.get('href'):
+                    link_elem = job_card.find('a', href=True)
+                    if link_elem:
                         href = link_elem.get('href')
                         if href.startswith('/'):
-                            job_url = base_url.split('/')[0] + '//' + base_url.split('/')[2] + href
-                        else:
+                            base_parts = company_info['url'].split('/')[:3]
+                            job_url = '/'.join(base_parts) + href
+                        elif href.startswith('http'):
                             job_url = href
                     
                     # Extract location
-                    location_selectors = ['[data-automation-id="jobLocation"]', '.css-1dimb5e', '.location']
-                    location = ""
-                    for loc_sel in location_selectors:
-                        loc_elem = job_elem.select_one(loc_sel)
-                        if loc_elem:
-                            location = loc_elem.get_text(strip=True)
-                            break
-                    
-                    # Only include jobs that seem biotech-related
-                    biotech_keywords = [
-                        'bioinformatics', 'computational biology', 'genomics', 'proteomics', 
-                        'data scientist', 'biostatistics', 'clinical', 'research', 'scientist',
-                        'biologist', 'biomedical', 'pharma', 'drug discovery', 'translational',
-                        'machine learning', 'AI', 'software engineer', 'data engineer'
+                    location = "Not specified"
+                    location_selectors = [
+                        '[data-automation-id*="location"]',
+                        '[data-automation-id="jobLocation"]',
+                        '.location', '.jobLocation'
                     ]
                     
-                    if title and any(keyword.lower() in title.lower() for keyword in biotech_keywords):
-                        jobs.append({
-                            "title": title,
-                            "company": company_token.upper(),
-                            "location": location or "Not specified",
-                            "url": job_url or base_url,
+                    for selector in location_selectors:
+                        location_elem = job_card.select_one(selector)
+                        if location_elem:
+                            location = location_elem.get_text(strip=True)
+                            break
+                    
+                    # Filter for biotech relevance
+                    biotech_keywords = [
+                        'scientist', 'research', 'data', 'computational', 'bioinformatics', 
+                        'clinical', 'genomics', 'biostatistics', 'biologist', 'engineer',
+                        'analyst', 'director', 'manager', 'associate', 'principal', 'lead',
+                        'machine learning', 'ai', 'software', 'informatics', 'statistics'
+                    ]
+                    
+                    if title and len(title) > 5 and any(keyword.lower() in title.lower() for keyword in biotech_keywords):
+                        job_data = {
+                            "title": title[:200],  # Limit title length
+                            "company": company_info['company_name'],
+                            "location": location,
+                            "url": job_url or company_info['url'],
                             "source": "workday",
                             "posted_at": datetime.utcnow(),
-                            "description": f"Position at {company_token.upper()} - {title}",
-                        })
+                            "description": f"Position at {company_info['company_name']} - {title[:100]}",
+                        }
+                        jobs.append(job_data)
+                        print(f"Added job: {title[:50]}...")
                         
+                        if len(jobs) >= 15:  # Limit to 15 jobs
+                            break
+                            
                 except Exception as e:
+                    print(f"Error processing job card: {e}")
                     continue
             
+            print(f"Total jobs found for {company_token}: {len(jobs)}")
             return jobs
             
     except Exception as e:
-        # If scraping fails, return empty list
+        print(f"Error fetching jobs for {company_token}: {e}")
         return []
+
+if __name__ == "__main__":
+    # Test the scraper
+    async def test():
+        jobs = await fetch_company_jobs("illumina")
+        print(f"Found {len(jobs)} jobs")
+        for job in jobs[:3]:
+            print(f"- {job['title']} at {job['company']}")
+    
+    asyncio.run(test())
