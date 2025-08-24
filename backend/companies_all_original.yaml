@@ -1,0 +1,93 @@
+greenhouse:
+- company: Benchling
+  token: benchling
+  careers_url: https://boards.greenhouse.io/benchling
+- company: Insitro
+  token: insitro
+  careers_url: https://boards.greenhouse.io/insitro
+- company: Generate:Biomedicines
+  token: generatebiomedicines
+  careers_url: https://boards.greenhouse.io/generatebiomedicines
+- company: Eikon Therapeutics
+  token: eikontherapeutics
+  careers_url: https://boards.greenhouse.io/eikontherapeutics
+- company: Freenome
+  token: freenome
+  careers_url: https://boards.greenhouse.io/freenome
+- company: Nimbus Therapeutics
+  token: nimbustherapeutics
+  careers_url: https://boards.greenhouse.io/nimbustherapeutics
+- company: Hexagon Bio
+  token: hexagonbio
+  careers_url: https://boards.greenhouse.io/hexagonbio
+- company: Flagship Pioneering
+  token: flagshippioneeringinc
+  careers_url: https://boards.greenhouse.io/flagshippioneeringinc
+- company: Formation Bio
+  token: formationbio
+  careers_url: https://boards.greenhouse.io/formationbio
+- company: Twist Bioscience
+  token: twistbioscience
+  careers_url: https://job-boards.greenhouse.io/twistbioscience
+- company: 10x Genomics
+  token: 10xgenomics
+  careers_url: https://boards.greenhouse.io/10xgenomics
+- company: Zymergen
+  token: zymergen
+  careers_url: https://boards.greenhouse.io/zymergen
+- company: Ginkgo Bioworks
+  token: ginkgobioworks
+  careers_url: https://boards.greenhouse.io/ginkgobioworks
+- company: Recursion Pharmaceuticals
+  token: recursionpharma
+  careers_url: https://boards.greenhouse.io/recursionpharma
+
+lever:
+- company: GRAIL
+  host: jobs.lever.co/grailbio
+  careers_url: https://jobs.lever.co/grailbio
+- company: Genesis Therapeutics
+  host: jobs.lever.co/genesistherapeutics
+  careers_url: https://jobs.lever.co/genesistherapeutics
+- company: Color Health
+  host: jobs.lever.co/color
+  careers_url: https://jobs.lever.co/color
+
+workday:
+- company: Gilead
+  token: gilead
+  careers_url: https://gilead.wd1.myworkdayjobs.com/gileadcareers
+- company: Pfizer
+  token: pfizer
+  careers_url: https://pfizer.wd1.myworkdayjobs.com/PfizerCareers
+- company: Illumina
+  token: illumina
+  careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
+- company: Moderna
+  token: moderna
+  careers_url: https://modernatx.wd1.myworkdayjobs.com/M_tx
+- company: Vertex
+  token: vertex
+  careers_url: https://vrtx.wd501.myworkdayjobs.com/vertex_careers
+- company: Tempus
+  token: tempus
+  careers_url: https://tempus.wd5.myworkdayjobs.com/en-US/Tempus
+- company: Biogen
+  token: biogen
+  careers_url: https://biogen.wd1.myworkdayjobs.com/en-US/Biogen_External_Career_Site
+
+comprehensive:
+- company: 23andMe
+  token: 23andme
+  careers_url: https://www.23andme.com/careers/jobs/
+- company: Guardant Health
+  token: guardanthealth
+  careers_url: https://www.guardanthealth.com/careers/jobs/
+
+talentbrew:
+- company: Amgen
+  token: amgen
+  careers_url: https://careers.amgen.com/
+- company: Merck
+  token: merck
+  careers_url: https://jobs.merck.com/
