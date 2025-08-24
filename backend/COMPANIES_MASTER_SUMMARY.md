@@ -101,14 +101,14 @@ Notable companies excluded due to inaccessible career pages:
 
 ## File Structure
 
-- **companies.yaml**: Primary consolidated file used by ingestor (43 companies)
-- **companies_master.yaml**: Backup copy of consolidated database
-- **companies_consolidated_final.yaml**: Archive of final consolidation
+- **companies.yaml**: Single authoritative file used by ingestor (43 companies)
+- **backup/**: Historical YAML files preserved for reference
 - **final_consolidation.py**: Script used for comprehensive consolidation
+- **expand_companies.py**: Script used for adding additional companies
 
 ## Usage
 
-The consolidated company database is used by `ingestor.py` to systematically scrape job postings from all configured companies across 6 platforms:
+The single consolidated company database is used by `ingestor.py` to systematically scrape job postings from all configured companies across 6 platforms:
 1. **Greenhouse** (14 companies) - Modern recruiting platform
 2. **Workday** (10 companies) - Enterprise HR platform  
 3. **Lever** (3 companies) - Recruiting software platform
@@ -119,5 +119,5 @@ The consolidated company database is used by `ingestor.py` to systematically scr
 ---
 
 *Last updated: August 24, 2025*
-*Final consolidation: 43 companies across 6 sources*
-*Processing: 7 YAML files consolidated with URL validation*
+*Single file: companies.yaml with 43 companies across 6 sources*
+*Cleanup: Removed redundant YAML files for single source of truth*
