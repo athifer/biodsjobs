@@ -33,7 +33,7 @@ greenhouse:
   token: nimbustherapeutics
   careers_url: https://boards.greenhouse.io/nimbustherapeutics
 - company: Twist Bioscience
-  token: twistbioscience
+  token: twist
   careers_url: https://job-boards.greenhouse.io/twistbioscience
 workday:
 - company: Alnylam
@@ -66,29 +66,23 @@ workday:
 - company: Vertex
   token: vertex
   careers_url: https://vrtx.wd501.myworkdayjobs.com/vertex_careers
-talentbrew:
-- company: 10x Genomics
-  token: 10xgenomics
-  careers_url: https://boards.greenhouse.io/10xgenomics
-- company: Amgen
-  token: amgen
-  careers_url: https://careers.amgen.com/
-- company: Ginkgo Bioworks
-  token: ginkgobioworks
-  careers_url: https://boards.greenhouse.io/ginkgobioworks
-- company: Merck
-  token: merck
-  careers_url: https://jobs.merck.com/
 lever:
 - company: Color Health
-  host: jobs.lever.co/color
+  token: color
   careers_url: https://jobs.lever.co/color
+  host: jobs.lever.co/color
 - company: GRAIL
-  host: jobs.lever.co/grailbio
+  token: grailbio
   careers_url: https://jobs.lever.co/grailbio
+  host: jobs.lever.co/grailbio
 - company: Genesis Therapeutics
-  host: jobs.lever.co/genesistherapeutics
+  token: genesistherapeutics
   careers_url: https://jobs.lever.co/genesistherapeutics
+  host: jobs.lever.co/genesistherapeutics
+bamboo:
+- company: Color Genomics
+  token: color
+  careers_url: https://color.bamboohr.com/careers/
 comprehensive:
 - company: 23andMe
   token: 23andme
@@ -96,11 +90,3 @@ comprehensive:
 - company: Guardant Health
   token: guardanthealth
   careers_url: https://www.guardanthealth.com/careers/jobs/
-bamboo:
-- company: Color Genomics
-  token: color
-  careers_url: https://color.bamboohr.com/careers/
-ycombinator:
-- company: Benchling YC
-  token: benchling
-  careers_url: https://www.workatastartup.com/companies/benchling

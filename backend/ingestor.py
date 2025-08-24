@@ -17,27 +17,36 @@ from scrapers import talentbrew as talentbrew_scraper
 from util import score_job
 
 def load_companies():
-    """Load all company YAML files from the current directory."""
+    """Load companies from the single companies.yaml file."""
     companies = []
     current_dir = Path(__file__).parent
-    yaml_files = list(current_dir.glob("companies*.yaml"))
+    companies_file = current_dir / "companies.yaml"
     
-    for yaml_file in yaml_files:
+    try:
+        with open(companies_file, 'r') as f:
+            company_data = yaml.safe_load(f)
+            if isinstance(company_data, dict):
+                # e.g. {"greenhouse": [...], "lever": [...]}
+                for source, entries in company_data.items():
+                    for entry in entries:
+                        entry["source"] = source
+                        companies.append(entry)
+        print(f"Loaded {len(companies)} companies from {companies_file.name}")
+    except Exception as e:
+        print(f"Error loading {companies_file}: {e}")
+        # Fallback to companies_all.yaml if companies.yaml doesn't exist
+        fallback_file = current_dir / "companies_all.yaml"
         try:
-            with open(yaml_file, 'r') as f:
+            with open(fallback_file, 'r') as f:
                 company_data = yaml.safe_load(f)
-                if isinstance(company_data, dict) and "companies" in company_data:
-                    companies.extend(company_data["companies"])
-                elif isinstance(company_data, dict):
-                    # e.g. {"greenhouse": [...]}
+                if isinstance(company_data, dict):
                     for source, entries in company_data.items():
                         for entry in entries:
                             entry["source"] = source
                             companies.append(entry)
-                elif isinstance(company_data, list):
-                    companies.extend(company_data)
-        except Exception as e:
-            print(f"Error loading {yaml_file}: {e}")
+            print(f"Loaded {len(companies)} companies from fallback {fallback_file.name}")
+        except Exception as e2:
+            print(f"Error loading fallback file {fallback_file}: {e2}")
     
     return companies
 
