@@ -48,6 +48,9 @@ workday:
 - company: Amgen
   token: amgen
   careers_url: https://careers.amgen.com/en/search-jobs
+- company: Biogen
+  token: biogen
+  careers_url: https://www.biogen.com/en_us/careers.html
 - company: Bristol Myers Squibb
   token: bms
   careers_url: https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS
@@ -57,9 +60,6 @@ workday:
 - company: Illumina
   token: illumina
   careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
-- company: Johnson & Johnson
-  token: jnj
-  careers_url: https://jobs.jnj.com/
 - company: Merck
   token: merck
   careers_url: https://jobs.merck.com/us/en
@@ -85,14 +85,7 @@ lever:
   token: genesistherapeutics
   careers_url: https://jobs.lever.co/genesistherapeutics
   host: jobs.lever.co/genesistherapeutics
-bamboo:
-- company: Color Genomics
-  token: color
-  careers_url: https://color.bamboohr.com/careers/
 comprehensive:
-- company: 23andMe
-  token: 23andme
-  careers_url: https://www.23andme.com/careers/jobs/
 - company: Abbott
   token: abbott
   careers_url: https://www.abbott.com/careers.html
@@ -114,9 +107,6 @@ comprehensive:
 - company: GSK
   token: gsk
   careers_url: https://www.gsk.com/en-gb/careers/
-- company: Guardant Health
-  token: guardanthealth
-  careers_url: https://www.guardanthealth.com/careers/jobs/
 - company: IQVIA
   token: iqvia
   careers_url: https://jobs.iqvia.com/
@@ -138,3 +128,11 @@ comprehensive:
 - company: Veeva Systems
   token: veeva
   careers_url: https://careers.veeva.com/
+bamboo:
+- company: Color Genomics
+  token: color
+  careers_url: https://color.bamboohr.com/careers/
+ycombinator:
+- company: Benchling YC
+  token: benchling
+  careers_url: https://www.workatastartup.com/companies/benchling

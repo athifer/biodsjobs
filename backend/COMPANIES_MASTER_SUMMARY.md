@@ -1,13 +1,15 @@
 # Company Master Database Summary
 
-This document summarizes the consolidated and expanded company database for the biodsjobs project.
+This document summarizes the final consolidated company database for the biodsjobs project.
 
 ## Database Statistics
 
-- **Total Companies**: 44
-- **Sources Processed**: 6 original YAML files + expansion
+- **Total Companies**: 43
+- **YAML Files Processed**: 7 files (main + backup directories)
+- **Unique Companies Found**: 65 (before validation)
 - **URL Validation**: Comprehensive validation performed
-- **Coverage**: Publicly traded, private, and startup biotech/pharma companies
+- **Final Valid Companies**: 43
+- **Coverage**: Publicly traded, private, and startup biotech/pharma companies across 6 platforms
 
 ## Companies by Source
 
@@ -15,35 +17,36 @@ This document summarizes the consolidated and expanded company database for the 
 - 10x Genomics
 - Benchling
 - Blueprint Medicines
-- Caribou Biosciences
-- CytomX Therapeutics
-- Guardant Health
-- GRAIL
-- Hinge Health
-- Moderna
+- Eikon Therapeutics
+- Flagship Pioneering
+- Formation Bio
+- Freenome
+- Generate:Biomedicines
+- Ginkgo Bioworks
+- Hexagon Bio
+- Insitro
+- Nimbus Therapeutics
 - Prime Medicine
-- Synthego
-- Voyager Therapeutics
+- Twist Bioscience
 
 ### WORKDAY (10 companies)
+- Alnylam
 - Amgen
+- Biogen
 - Bristol Myers Squibb
-- Eli Lilly
-- Gilead Sciences
+- Gilead
 - Illumina
-- Johnson & Johnson
 - Merck
-- Novartis
+- Moderna
 - Pfizer
-- Roche
+- Vertex
 
 ### LEVER (3 companies)
-- Autodesk
-- Recursion Pharmaceuticals
-- Veracyte
+- Color Health
+- GRAIL
+- Genesis Therapeutics
 
-### COMPREHENSIVE (16 companies)
-- 23andMe
+### COMPREHENSIVE (14 companies)
 - Abbott
 - AstraZeneca
 - BioNTech
@@ -51,7 +54,6 @@ This document summarizes the consolidated and expanded company database for the 
 - Flatiron Health
 - Foundation Medicine
 - GSK
-- Guardant Health
 - IQVIA
 - Novartis
 - PPD
@@ -61,60 +63,61 @@ This document summarizes the consolidated and expanded company database for the 
 - Veeva Systems
 
 ### BAMBOO (1 company)
-- Zymergen
+- Color Genomics
 
-## Expansion Summary
+### YCOMBINATOR (1 company)
+- Benchling YC
 
-### Company Addition Process
-- **Initial Companies**: 28 (from consolidated files)
-- **Additional Companies Evaluated**: 47
-- **New Companies Added**: 16
-- **Final Total**: 44 companies
-- **Expansion Success Rate**: 34% (16/47 new companies passed validation)
+## Final Consolidation Summary
 
-### Notable Additions by Category
+### Processing Results
+- **YAML Files Processed**: 7 files
+  - Main directory: companies.yaml, companies_all.yaml, companies_master.yaml
+  - Backup directory: companies_all_backup.yaml, companies_all.yaml, companies_all_new.yaml, companies_all_original.yaml
+- **Unique Companies Found**: 65 (across all files)
+- **URL Validation**: Performed on all companies
+- **Valid Companies**: 43 (66% success rate)
+- **Invalid URLs**: 22 companies excluded due to inaccessible career pages
 
-#### Major Pharmaceutical Companies
-- **Roche**: Global pharmaceutical leader
-- **Novartis**: Swiss multinational pharmaceutical company
-- **GSK**: GlaxoSmithKline, UK-based pharma giant
-- **AstraZeneca**: British-Swedish multinational pharmaceutical company
-- **Takeda**: Japanese pharmaceutical company
-- **BioNTech**: German biotechnology company (mRNA vaccines)
+### Consolidation Process
+1. **Deduplication**: Companies normalized by name to remove duplicates
+2. **Source Prioritization**: Greenhouse > Workday > Lever > Comprehensive > Bamboo > YCombinator
+3. **URL Validation**: Async validation of all career page URLs
+4. **Quality Control**: Only companies with accessible career pages included
 
-#### Contract Research Organizations (CROs)
-- **IQVIA**: Leading provider of advanced analytics and clinical research
-- **Syneos Health**: Biopharmaceutical solutions organization
-- **PPD**: Clinical research organization
+### Notable Companies Included
+- **Major Pharma**: Novartis, Roche, AstraZeneca, GSK, Takeda, BioNTech
+- **Biotech Leaders**: Amgen, Biogen, Gilead, Moderna, Vertex, Alnylam
+- **Emerging Companies**: 10x Genomics, Benchling, Insitro, Ginkgo Bioworks
+- **CROs**: IQVIA, Syneos Health, PPD
+- **MedTech**: Abbott, Boston Scientific
+- **AI/Data**: Flatiron Health, Veeva Systems, Foundation Medicine
 
-#### Medical Technology Companies
-- **Abbott**: Diversified healthcare company
-- **Boston Scientific**: Medical device manufacturer
-
-#### AI/Data/Technology Companies
-- **Flatiron Health**: Oncology-focused technology company
-- **Veeva Systems**: Cloud computing company for life sciences
-- **Foundation Medicine**: Molecular information company
-
-#### Emerging Biotech Companies
-- **Blueprint Medicines**: Precision therapy company
-- **Prime Medicine**: Gene editing company
-
-### Validation Results
-
-Companies with non-accessible career pages (404 errors, site issues, etc.) were excluded from the final database to ensure reliable job scraping. This included companies like Regeneron, BioMarin, Seagen, and others where career page URLs were not accessible during validation.
+### Companies Excluded (Invalid URLs)
+Notable companies excluded due to inaccessible career pages:
+- Johnson & Johnson, Eli Lilly, AbbVie (major pharma with site issues)
+- 23andMe, Guardant Health, Zymergen (biotech with broken links)
+- Various startups with non-functional career page URLs
 
 ## File Structure
 
-- **companies.yaml**: Primary configuration file used by ingestor
-- **companies_master.yaml**: Backup copy of the consolidated database
-- **expand_companies.py**: Script used for adding additional companies
+- **companies.yaml**: Primary consolidated file used by ingestor (43 companies)
+- **companies_master.yaml**: Backup copy of consolidated database
+- **companies_consolidated_final.yaml**: Archive of final consolidation
+- **final_consolidation.py**: Script used for comprehensive consolidation
 
 ## Usage
 
-The consolidated company database is used by `ingestor.py` to systematically scrape job postings from all configured companies across multiple platforms (Greenhouse, Workday, Lever, comprehensive scrapers, and Bamboo).
+The consolidated company database is used by `ingestor.py` to systematically scrape job postings from all configured companies across 6 platforms:
+1. **Greenhouse** (14 companies) - Modern recruiting platform
+2. **Workday** (10 companies) - Enterprise HR platform  
+3. **Lever** (3 companies) - Recruiting software platform
+4. **Comprehensive** (14 companies) - Custom scraper for complex sites
+5. **Bamboo** (1 company) - BambooHR platform
+6. **YCombinator** (1 company) - Y Combinator job board
 
 ---
 
 *Last updated: August 24, 2025*
-*Total companies: 44 across 5 sources*
+*Final consolidation: 43 companies across 6 sources*
+*Processing: 7 YAML files consolidated with URL validation*
