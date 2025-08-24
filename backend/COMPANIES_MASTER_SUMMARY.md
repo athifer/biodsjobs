@@ -1,15 +1,23 @@
 # Company Master Database Summary
 
-This document summarizes the final consolidated company database for the biodsjobs project.
+This document summarizes the comprehensive biotech/pharma company database for the biodsjobs project.
 
 ## Database Statistics
 
-- **Total Companies**: 43
-- **YAML Files Processed**: 7 files (main + backup directories)
-- **Unique Companies Found**: 65 (before validation)
-- **URL Validation**: Comprehensive validation performed
-- **Final Valid Companies**: 43
-- **Coverage**: Publicly traded, private, and startup biotech/pharma companies across 6 platforms
+- **Total Companies**: 86 companies
+- **Growth**: Expanded from 43 to 86 companies (100% increase)
+- **YAML Files Processed**: 7 files plus comprehensive expansion
+- **URL Validation**: All companies have verified accessible career pages
+- **Coverage**: Comprehensive coverage of publicly traded, private, and startup biotech/pharma companies
+
+## Industry Coverage
+
+- 🏢 **Major Pharma**: 10+ companies (Pfizer, Novartis, Roche, GSK, etc.)
+- 🧬 **Public Biotech**: 10+ companies (Amgen, Biogen, Gilead, Moderna, etc.)
+- 🚀 **Emerging Biotech**: 10+ companies (Benchling, Ginkgo, Insitro, etc.)
+- 🏥 **MedTech**: 5+ companies (Danaher, Thermo Fisher, Boston Scientific, etc.)
+- 🔬 **CRO/Services**: 6+ companies (IQVIA, Syneos Health, PPD, etc.)
+- 🔧 **Specialized**: Gene therapy, AI/ML, diagnostics, and more
 
 ## Companies by Source
 

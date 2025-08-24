@@ -8,6 +8,9 @@ greenhouse:
 - company: Blueprint Medicines
   token: blueprintmedicines
   careers_url: https://boards.greenhouse.io/blueprintmedicines
+- company: Cellarity
+  token: cellarity
+  careers_url: https://boards.greenhouse.io/cellarity
 - company: Eikon Therapeutics
   token: eikontherapeutics
   careers_url: https://boards.greenhouse.io/eikontherapeutics
@@ -86,18 +89,69 @@ lever:
   careers_url: https://jobs.lever.co/genesistherapeutics
   host: jobs.lever.co/genesistherapeutics
 comprehensive:
+- company: AbbVie
+  token: abbvie
+  careers_url: https://careers.abbvie.com/
 - company: Abbott
   token: abbott
   careers_url: https://www.abbott.com/careers.html
+- company: Acadia Pharmaceuticals
+  token: acadia
+  careers_url: https://www.acadia-pharm.com/careers/
+- company: Allogene Therapeutics
+  token: allogene
+  careers_url: https://www.allogene.com/careers
+- company: Argenx
+  token: argenx
+  careers_url: https://www.argenx.com/careers
 - company: AstraZeneca
   token: astrazeneca
   careers_url: https://careers.astrazeneca.com/
+- company: BioMarin
+  token: biomarin
+  careers_url: https://biomarin.com/careers/
 - company: BioNTech
   token: biontech
   careers_url: https://biontech.de/careers
+- company: Biohaven Pharmaceuticals
+  token: biohaven
+  careers_url: https://www.biohavenpharma.com/careers
+- company: Bluebird Bio
+  token: bluebirdbio
+  careers_url: https://www.bluebirdbio.com/careers/
+- company: Boehringer Ingelheim
+  token: boehringer
+  careers_url: https://www.boehringer-ingelheim.com/careers
 - company: Boston Scientific
   token: bostonscientific
   careers_url: https://jobs.bostonscientific.com/
+- company: Catalent
+  token: catalent
+  careers_url: https://www.catalent.com/careers/
+- company: Charles River Laboratories
+  token: criver
+  careers_url: https://jobs.criver.com/
+- company: Covance
+  token: covance
+  careers_url: https://careers.covance.com/
+- company: Danaher
+  token: danaher
+  careers_url: https://jobs.danaher.com/
+- company: Deep Genomics
+  token: deepgenomics
+  careers_url: https://www.deepgenomics.com/careers/
+- company: Denali Therapeutics
+  token: denalitx
+  careers_url: https://www.denalitherapeutics.com/careers
+- company: Edwards Lifesciences
+  token: edwards
+  careers_url: https://www.edwards.com/careers
+- company: Exact Sciences
+  token: exactsciences
+  careers_url: https://www.exactsciences.com/careers
+- company: Fate Therapeutics
+  token: fatetherapeutics
+  careers_url: https://fatetherapeutics.com/careers/
 - company: Flatiron Health
   token: flatiron
   careers_url: https://flatiron.com/careers/
@@ -107,27 +161,102 @@ comprehensive:
 - company: GSK
   token: gsk
   careers_url: https://www.gsk.com/en-gb/careers/
+- company: Galapagos
+  token: galapagos
+  careers_url: https://www.glpg.com/careers
+- company: Halozyme Therapeutics
+  token: halozyme
+  careers_url: https://halozyme.com/careers/
+- company: Hologic
+  token: hologic
+  careers_url: https://www.hologic.com/careers
+- company: ICON
+  token: iconplc
+  careers_url: https://www.iconplc.com/careers/
 - company: IQVIA
   token: iqvia
   careers_url: https://jobs.iqvia.com/
+- company: Insilico Medicine
+  token: insilicomedicine
+  careers_url: https://insilico.com/careers
+- company: Intercept Pharmaceuticals
+  token: intercept
+  careers_url: https://www.interceptpharma.com/careers
+- company: Invitae
+  token: invitae
+  careers_url: https://www.invitae.com/careers
+- company: Ionis Pharmaceuticals
+  token: ionis
+  careers_url: https://www.ionis.com/careers/
+- company: Jazz Pharmaceuticals
+  token: jazz
+  careers_url: https://www.jazzpharmaceuticals.com/careers/
+- company: Kite Pharma
+  token: kitepharma
+  careers_url: https://www.kitepharma.com/careers
+- company: Mirati Therapeutics
+  token: mirati
+  careers_url: https://www.mirati.com/careers/
+- company: Natera
+  token: natera
+  careers_url: https://www.natera.com/careers
+- company: NeoGenomics
+  token: neogenomics
+  careers_url: https://neogenomics.com/careers/
 - company: Novartis
   token: novartis
   careers_url: https://www.novartis.com/careers
+- company: Owkin
+  token: owkin
+  careers_url: https://owkin.com/careers/
+- company: Oxford Nanopore
+  token: nanopore
+  careers_url: https://nanoporetech.com/careers
 - company: PPD
   token: ppd
   careers_url: https://www.ppd.com/careers/
+- company: Personalis
+  token: personalis
+  careers_url: https://www.personalis.com/careers/
+- company: Prothena Corporation
+  token: prothena
+  careers_url: https://www.prothena.com/careers
+- company: Recursion
+  token: recursion
+  careers_url: https://www.recursion.com/careers
 - company: Roche
   token: roche
   careers_url: https://careers.roche.com/
+- company: Seagen
+  token: seagen
+  careers_url: https://www.seagen.com/careers
 - company: Syneos Health
   token: syneoshealth
   careers_url: https://syneoshealth.com/careers
 - company: Takeda
   token: takeda
   careers_url: https://www.takeda.com/careers/
+- company: Tempus
+  token: tempus
+  careers_url: https://www.tempus.com/careers/
+- company: Thermo Fisher Scientific
+  token: thermofisher
+  careers_url: https://jobs.thermofisher.com/
+- company: UCB
+  token: ucb
+  careers_url: https://www.ucb.com/careers
+- company: United Therapeutics
+  token: unither
+  careers_url: https://www.unither.com/careers.html
 - company: Veeva Systems
   token: veeva
   careers_url: https://careers.veeva.com/
+- company: Verisign
+  token: verisign
+  careers_url: https://www.verisign.com/en_US/company-information/careers/index.xhtml
+- company: Zogenix
+  token: zogenix
+  careers_url: https://www.zogenix.com/careers/
 bamboo:
 - company: Color Genomics
   token: color
