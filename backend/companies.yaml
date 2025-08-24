@@ -5,6 +5,9 @@ greenhouse:
 - company: Benchling
   token: benchling
   careers_url: https://boards.greenhouse.io/benchling
+- company: Blueprint Medicines
+  token: blueprintmedicines
+  careers_url: https://boards.greenhouse.io/blueprintmedicines
 - company: Eikon Therapeutics
   token: eikontherapeutics
   careers_url: https://boards.greenhouse.io/eikontherapeutics
@@ -32,6 +35,9 @@ greenhouse:
 - company: Nimbus Therapeutics
   token: nimbustherapeutics
   careers_url: https://boards.greenhouse.io/nimbustherapeutics
+- company: Prime Medicine
+  token: primemedicine
+  careers_url: https://boards.greenhouse.io/primemedicine
 - company: Twist Bioscience
   token: twist
   careers_url: https://job-boards.greenhouse.io/twistbioscience
@@ -87,6 +93,48 @@ comprehensive:
 - company: 23andMe
   token: 23andme
   careers_url: https://www.23andme.com/careers/jobs/
+- company: Abbott
+  token: abbott
+  careers_url: https://www.abbott.com/careers.html
+- company: AstraZeneca
+  token: astrazeneca
+  careers_url: https://careers.astrazeneca.com/
+- company: BioNTech
+  token: biontech
+  careers_url: https://biontech.de/careers
+- company: Boston Scientific
+  token: bostonscientific
+  careers_url: https://jobs.bostonscientific.com/
+- company: Flatiron Health
+  token: flatiron
+  careers_url: https://flatiron.com/careers/
+- company: Foundation Medicine
+  token: foundationmedicine
+  careers_url: https://careers.foundationmedicine.com/
+- company: GSK
+  token: gsk
+  careers_url: https://www.gsk.com/en-gb/careers/
 - company: Guardant Health
   token: guardanthealth
   careers_url: https://www.guardanthealth.com/careers/jobs/
+- company: IQVIA
+  token: iqvia
+  careers_url: https://jobs.iqvia.com/
+- company: Novartis
+  token: novartis
+  careers_url: https://www.novartis.com/careers
+- company: PPD
+  token: ppd
+  careers_url: https://www.ppd.com/careers/
+- company: Roche
+  token: roche
+  careers_url: https://careers.roche.com/
+- company: Syneos Health
+  token: syneoshealth
+  careers_url: https://syneoshealth.com/careers
+- company: Takeda
+  token: takeda
+  careers_url: https://www.takeda.com/careers/
+- company: Veeva Systems
+  token: veeva
+  careers_url: https://careers.veeva.com/
