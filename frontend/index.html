@@ -291,6 +291,17 @@
       color: var(--text-primary);
       line-height: 1.4;
     }
+
+    .job h3 a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .job h3 a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
     
     .job-meta {
       display: flex;
@@ -317,15 +328,107 @@
       color: white;
     }
     
-    .pill-source {
-      background: var(--secondary-color);
-      color: white;
-    }
-    
     .job-description {
       color: var(--text-secondary);
       line-height: 1.6;
-      margin-bottom: 16px;
+      margin-bottom: 0;
+      font-size: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Results and pagination styles */
+    #job-results-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .results-info {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .jobs-per-page {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .jobs-per-page select {
+      padding: 6px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: white;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .page-navigation {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-navigation button {
+      padding: 8px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: white;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-navigation button:hover:not(:disabled) {
+      background: var(--bg-light);
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .page-navigation button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #page-info {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      #job-results-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .pagination-controls {
+        justify-content: space-between;
+      }
     }
     
     .job-link {
@@ -426,12 +529,7 @@
           <div class="stat-label">Companies</div>
         </div>
         <div class="stat-item">
-          <div class="stat-icon">🔗</div>
-          <div class="stat-number" id="total-sources">-</div>
-          <div class="stat-label">Sources</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon">🕒</div>
+          <div class="stat-icon"></div>
           <div class="stat-number" id="last-updated">-</div>
           <div class="stat-label">Last Updated</div>
         </div>
@@ -446,37 +544,6 @@
         </div>
         
         <div class="filter-grid">
-          <div class="filter-group">
-            <div class="filter-label">🏢 Sources</div>
-            <div class="checkbox-group" id="source-checkboxes">
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-lever" value="lever">
-                <label for="source-lever">Lever</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-greenhouse" value="greenhouse">
-                <label for="source-greenhouse">Greenhouse</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-comprehensive" value="comprehensive">
-                <label for="source-comprehensive">Comprehensive</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-talentbrew" value="talentbrew">
-                <label for="source-talentbrew">TalentBrew</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-workday" value="workday">
-                <label for="source-workday">Workday</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="source-ycombinator" value="ycombinator">
-                <label for="source-ycombinator">Y Combinator</label>
-              </div>
-            </div>
-            <div class="selected-count" id="source-count">All sources</div>
-          </div>
-          
           <div class="filter-group">
             <div class="filter-label">📍 Locations</div>
             <div class="checkbox-group" id="location-checkboxes">
@@ -564,6 +631,29 @@
         💡 <strong>Search Tips:</strong> Use specific bioinformatics terms like "genomics", "RNA-seq", "computational biology", "machine learning", or "single-cell" for the most relevant results. Jobs are automatically ranked by relevance to data science and computational biology.
       </div>
       
+      <!-- Job count and pagination controls -->
+      <div id="job-results-header" style="display: none;">
+        <div class="results-info">
+          <span id="job-count">0 jobs found</span>
+        </div>
+        <div class="pagination-controls">
+          <div class="jobs-per-page">
+            <label for="jobs-per-page-select">Jobs per page:</label>
+            <select id="jobs-per-page-select">
+              <option value="10">10</option>
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="page-navigation" id="page-navigation" style="display: none;">
+            <button id="prev-page" disabled>← Previous</button>
+            <span id="page-info">Page 1 of 1</span>
+            <button id="next-page" disabled>Next →</button>
+          </div>
+        </div>
+      </div>
+      
       <div id="list"></div>
     </div>
   </div>
@@ -613,8 +703,7 @@ function updateSelectedCount(groupId, countId) {
   const countElement = document.getElementById(countId);
   
   if (selected.length === 0) {
-    countElement.textContent = groupId.includes('source') ? 'All sources' : 
-                              groupId.includes('location') ? 'All locations' : 'All job types';
+    countElement.textContent = groupId.includes('location') ? 'All locations' : 'All job types';
   } else {
     countElement.textContent = `${selected.length} selected`;
   }
@@ -654,11 +743,8 @@ function renderJob(job) {
   const cleanLocation = cleanHtmlText(job.location);
   const validUrl = validateJobUrl(job.url, cleanCompany);
   
-  // Truncate description if too long
-  const maxDescLength = 200;
-  const shortDescription = cleanDescription.length > maxDescLength 
-    ? cleanDescription.substring(0, maxDescLength) + '...' 
-    : cleanDescription;
+  // Don't truncate description as CSS will handle the line clamping
+  const shortDescription = cleanDescription;
 
   // Format date
   const date = new Date(job.posted_at);
@@ -671,17 +757,13 @@ function renderJob(job) {
 
   return `
     <div class="job">
-      <h3>${cleanTitle}</h3>
+      <h3><a href="${validUrl}" target="_blank" rel="noopener noreferrer">${cleanTitle}</a></h3>
       <div class="job-meta">
         <span class="pill pill-company">${cleanCompany}</span>
         <span class="pill pill-location">📍 ${cleanLocation}</span>
-        <span class="pill pill-source">🔗 ${job.source}</span>
         <span class="pill" style="background: #f1f5f9; color: #64748b;">⏰ ${timeAgo}</span>
       </div>
       <div class="job-description">${shortDescription}</div>
-      <a href="${validUrl}" target="_blank" rel="noopener noreferrer" class="job-link">
-        View Job Details →
-      </a>
     </div>
   `;
 }
@@ -717,7 +799,6 @@ async function loadStats() {
     
     document.getElementById('total-jobs').textContent = stats.total_jobs?.toLocaleString() || '0';
     document.getElementById('total-companies').textContent = stats.total_companies?.toLocaleString() || '0';
-    document.getElementById('total-sources').textContent = stats.total_sources?.toLocaleString() || '0';
     
     if (stats.latest_job_date) {
       const date = new Date(stats.latest_job_date);
@@ -729,15 +810,91 @@ async function loadStats() {
     console.error('Error loading stats:', error);
     document.getElementById('total-jobs').textContent = 'Error';
     document.getElementById('total-companies').textContent = 'Error';
-    document.getElementById('total-sources').textContent = 'Error';
     document.getElementById('last-updated').textContent = 'Error';
   }
 }
 
+// Pagination variables
+let allJobs = [];
+let currentPage = 1;
+let jobsPerPage = 25;
+
+// Function to render jobs with pagination
+function renderJobsPage() {
+  const startIndex = (currentPage - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  const jobsToShow = allJobs.slice(startIndex, endIndex);
+  
+  const listEl = document.getElementById('list');
+  const headerEl = document.getElementById('job-results-header');
+  const jobCountEl = document.getElementById('job-count');
+  const pageInfoEl = document.getElementById('page-info');
+  const pageNavEl = document.getElementById('page-navigation');
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  
+  // Update job count
+  jobCountEl.textContent = `${allJobs.length} job${allJobs.length !== 1 ? 's' : ''} found`;
+  
+  // Show/hide header based on whether we have jobs
+  if (allJobs.length > 0) {
+    headerEl.style.display = 'block';
+    
+    // Calculate pagination
+    const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+    
+    // Update page info
+    pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+    
+    // Show/hide pagination controls
+    if (totalPages > 1) {
+      pageNavEl.style.display = 'flex';
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    } else {
+      pageNavEl.style.display = 'none';
+    }
+    
+    // Render jobs for current page
+    listEl.innerHTML = jobsToShow.map(renderJob).join('');
+  } else {
+    headerEl.style.display = 'none';
+    listEl.innerHTML = `
+      <div class="no-results">
+        <h3>No jobs found</h3>
+        <p>Try adjusting your search terms or filters to find more opportunities.</p>
+      </div>
+    `;
+  }
+}
+
+// Function to change page
+function changePage(newPage) {
+  const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+  if (newPage >= 1 && newPage <= totalPages) {
+    currentPage = newPage;
+    renderJobsPage();
+    // Scroll to top of job list
+    document.getElementById('job-results-header').scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  }
+}
+
+// Function to change jobs per page
+function changeJobsPerPage(newJobsPerPage) {
+  jobsPerPage = newJobsPerPage;
+  currentPage = 1; // Reset to first page
+  renderJobsPage();
+}
 // Load jobs
 async function loadJobs() {
   const listEl = document.getElementById('list');
+  const headerEl = document.getElementById('job-results-header');
+  
   listEl.innerHTML = '<div class="loading">🔄 Loading jobs...</div>';
+  headerEl.style.display = 'none';
   
   try {
     // Build query parameters
@@ -746,17 +903,14 @@ async function loadJobs() {
     const query = document.getElementById('q').value.trim();
     if (query) params.append('q', query);
     
-    const selectedSources = getSelectedValues('source-checkboxes');
-    selectedSources.forEach(source => params.append('source', source));
-    
     const selectedLocations = getSelectedValues('location-checkboxes');
     selectedLocations.forEach(location => params.append('location', location));
     
     const days = document.getElementById('days').value;
     if (days) params.append('days', days);
     
-    // Set a higher limit to get more jobs for client-side filtering
-    params.append('limit', '200');
+    // Set a higher limit to get more jobs for client-side filtering and pagination
+    params.append('limit', '500');
     
     const response = await fetch(`http://localhost:8000/api/jobs?${params.toString()}`);
     if (!response.ok) {
@@ -769,20 +923,16 @@ async function loadJobs() {
     const selectedJobTypes = getSelectedValues('jobtype-checkboxes');
     jobs = applyJobTypeFilter(jobs, selectedJobTypes);
     
-    if (jobs.length === 0) {
-      listEl.innerHTML = `
-        <div class="no-results">
-          <h3>No jobs found</h3>
-          <p>Try adjusting your search terms or filters to find more opportunities.</p>
-        </div>
-      `;
-      return;
-    }
+    // Store all jobs and reset pagination
+    allJobs = jobs;
+    currentPage = 1;
     
-    listEl.innerHTML = jobs.map(renderJob).join('');
+    // Render the jobs with pagination
+    renderJobsPage();
     
   } catch (error) {
     console.error('Error loading jobs:', error);
+    headerEl.style.display = 'none';
     listEl.innerHTML = `
       <div class="no-results">
         <h3>Error loading jobs</h3>
@@ -799,7 +949,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadJobs();
   
   // Add event listeners for checkbox changes
-  ['source-checkboxes', 'location-checkboxes', 'jobtype-checkboxes'].forEach(groupId => {
+  ['location-checkboxes', 'jobtype-checkboxes'].forEach(groupId => {
     const group = document.getElementById(groupId);
     if (group) {
       group.addEventListener('change', function() {
@@ -825,6 +975,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Enter') {
       loadJobs();
     }
+  });
+  
+  // Add event listeners for pagination controls
+  document.getElementById('jobs-per-page-select').addEventListener('change', function() {
+    changeJobsPerPage(parseInt(this.value));
+  });
+  
+  document.getElementById('prev-page').addEventListener('click', function() {
+    changePage(currentPage - 1);
+  });
+  
+  document.getElementById('next-page').addEventListener('click', function() {
+    changePage(currentPage + 1);
   });
 });
 </script>

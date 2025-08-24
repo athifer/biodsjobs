@@ -45,12 +45,57 @@ greenhouse:
   token: primemedicine
   careers_url: https://boards.greenhouse.io/primemedicine
 - company: Twist Bioscience
-  token: twist
+  token: twistbioscience
   careers_url: https://job-boards.greenhouse.io/twistbioscience
+- company: Recursion
+  token: recursionpharmaceuticals
+  careers_url: https://job-boards.greenhouse.io/recursionpharmaceuticals
 workday:
 - company: Amgen
   token: amgen
   careers_url: https://careers.amgen.com/en/jobs
+- company: Illumina
+  token: illumina
+  careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
+- company: Gilead
+  token: gilead
+  careers_url: https://gilead.wd1.myworkdayjobs.com/gileadcareers
+- company: Kite Pharma
+  token: kitepharma
+  careers_url: https://gilead.wd1.myworkdayjobs.com/en-US/gileadcareers
+- company: Pfizer
+  token: pfizer
+  careers_url: https://pfizer.wd1.myworkdayjobs.com/PfizerCareers
+- company: Bristol Myers Squibb
+  token: bms
+  careers_url: https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS
+- company: Moderna
+  token: moderna
+  careers_url: https://modernatx.wd1.myworkdayjobs.com/M_tx
+- company: Vertex
+  token: vertex
+  careers_url: https://vrtx.wd501.myworkdayjobs.com/vertex_careers
+- company: Alnylam
+  token: alnylam
+  careers_url: https://alnylam.wd5.myworkdayjobs.com/Alnylam_Careers
+- company: Tempus
+  token: tempus
+  careers_url: https://tempus.wd5.myworkdayjobs.com/en-US/Tempus
+- company: Biogen
+  token: biogen
+  careers_url: https://biogen.wd1.myworkdayjobs.com/en-US/Biogen_External_Career_Site
+- company: AbbVie
+  token: abbvie
+  careers_url: https://abbvie.wd1.myworkdayjobs.com/External
+- company: Merck
+  token: merck
+  careers_url: https://jobs.merck.com/
+- company: Abbott
+  token: abbott
+  careers_url: https://abbott.wd5.myworkdayjobs.com/abbottcareers
+- company: Exact Sciences
+  token: exactsciences
+  careers_url: https://exactsciences.wd1.myworkdayjobs.com/Exact_Sciences
 lever:
 - company: Color Health
   token: color
@@ -69,21 +114,12 @@ lever:
   careers_url: https://jobs.lever.co/genesistherapeutics
   host: jobs.lever.co/genesistherapeutics
 comprehensive:
-- company: AbbVie
-  token: abbvie
-  careers_url: https://careers.abbvie.com/
-- company: Abbott
-  token: abbott
-  careers_url: https://www.abbott.com/careers.html
 - company: Acadia Pharmaceuticals
   token: acadia
   careers_url: https://www.acadia-pharm.com/careers/
 - company: Allogene Therapeutics
   token: allogene
   careers_url: https://www.allogene.com/careers
-- company: Alnylam
-  token: alnylam
-  careers_url: https://www.alnylam.com/careers
 - company: Argenx
   token: argenx
   careers_url: https://www.argenx.com/careers
@@ -95,10 +131,7 @@ comprehensive:
   careers_url: https://biomarin.com/careers/
 - company: BioNTech
   token: biontech
-  careers_url: https://biontech.de/careers
-- company: Biogen
-  token: biogen
-  careers_url: https://www.biogen.com/en_us/careers.html
+  careers_url: https://jobs.biontech.com/go/All-Jobs/8781301/
 - company: Biohaven Pharmaceuticals
   token: biohaven
   careers_url: https://www.biohavenpharma.com/careers
@@ -129,9 +162,6 @@ comprehensive:
 - company: Edwards Lifesciences
   token: edwards
   careers_url: https://www.edwards.com/careers
-- company: Exact Sciences
-  token: exactsciences
-  careers_url: https://www.exactsciences.com/careers
 - company: Fate Therapeutics
   token: fatetherapeutics
   careers_url: https://fatetherapeutics.com/careers/
@@ -174,42 +204,6 @@ comprehensive:
 - company: Jazz Pharmaceuticals
   token: jazz
   careers_url: https://www.jazzpharmaceuticals.com/careers/
-- company: Kite Pharma
-  token: kitepharma
-  careers_url: https://www.kitepharma.com/careers
-- company: Merck
-  token: merck
-  careers_url: https://jobs.merck.com/us/en
-- company: Mirati Therapeutics
-  token: mirati
-  careers_url: https://www.mirati.com/careers/
-- company: NeoGenomics
-  token: neogenomics
-  careers_url: https://neogenomics.com/careers/
-- company: Novartis
-  token: novartis
-  careers_url: https://www.novartis.com/careers
-- company: Owkin
-  token: owkin
-  careers_url: https://owkin.com/careers/
-- company: Oxford Nanopore
-  token: nanopore
-  careers_url: https://nanoporetech.com/careers
-- company: PPD
-  token: ppd
-  careers_url: https://www.ppd.com/careers/
-- company: Personalis
-  token: personalis
-  careers_url: https://www.personalis.com/careers/
-- company: Prothena Corporation
-  token: prothena
-  careers_url: https://www.prothena.com/careers
-- company: Recursion
-  token: recursion
-  careers_url: https://www.recursion.com/careers
-- company: Roche
-  token: roche
-  careers_url: https://careers.roche.com/
 - company: Seagen
   token: seagen
   careers_url: https://www.seagen.com/careers
@@ -219,9 +213,6 @@ comprehensive:
 - company: Takeda
   token: takeda
   careers_url: https://www.takeda.com/careers/
-- company: Tempus
-  token: tempus
-  careers_url: https://www.tempus.com/careers/
 - company: Thermo Fisher Scientific
   token: thermofisher
   careers_url: https://jobs.thermofisher.com/global/en
@@ -240,24 +231,6 @@ comprehensive:
 - company: Zogenix
   token: zogenix
   careers_url: https://www.zogenix.com/careers/
-- company: Bristol Myers Squibb
-  token: bms
-  careers_url: https://www.bms.com/careers
-- company: Gilead
-  token: gilead
-  careers_url: https://www.gilead.com/careers
-- company: Illumina
-  token: illumina
-  careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
-- company: Moderna
-  token: moderna
-  careers_url: https://www.modernatx.com/careers
-- company: Pfizer
-  token: pfizer
-  careers_url: https://www.pfizer.com/careers
-- company: Vertex
-  token: vertex
-  careers_url: https://www.vrtx.com/careers
 bamboo:
 - company: Color Genomics
   token: color
