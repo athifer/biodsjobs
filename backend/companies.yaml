@@ -51,24 +51,6 @@ workday:
 - company: Amgen
   token: amgen
   careers_url: https://careers.amgen.com/en/jobs
-- company: Bristol Myers Squibb
-  token: bms
-  careers_url: https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS
-- company: Gilead
-  token: gilead
-  careers_url: https://gilead.wd1.myworkdayjobs.com/gileadcareers
-- company: Illumina
-  token: illumina
-  careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
-- company: Moderna
-  token: moderna
-  careers_url: https://modernatx.wd1.myworkdayjobs.com/M_tx
-- company: Pfizer
-  token: pfizer
-  careers_url: https://pfizer.wd1.myworkdayjobs.com/PfizerCareers
-- company: Vertex
-  token: vertex
-  careers_url: https://vrtx.wd501.myworkdayjobs.com/vertex_careers
 lever:
 - company: Color Health
   token: color
@@ -258,6 +240,24 @@ comprehensive:
 - company: Zogenix
   token: zogenix
   careers_url: https://www.zogenix.com/careers/
+- company: Bristol Myers Squibb
+  token: bms
+  careers_url: https://www.bms.com/careers
+- company: Gilead
+  token: gilead
+  careers_url: https://www.gilead.com/careers
+- company: Illumina
+  token: illumina
+  careers_url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
+- company: Moderna
+  token: moderna
+  careers_url: https://www.modernatx.com/careers
+- company: Pfizer
+  token: pfizer
+  careers_url: https://www.pfizer.com/careers
+- company: Vertex
+  token: vertex
+  careers_url: https://www.vrtx.com/careers
 bamboo:
 - company: Color Genomics
   token: color
