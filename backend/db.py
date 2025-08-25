@@ -26,6 +26,10 @@ class Job(Base):
 def init_db():
     Base.metadata.create_all(bind=engine)
 
+def get_session():
+    """Get a database session."""
+    return SessionLocal()
+
 def upsert_job(session, job_data):
     """Insert or update a job in the database."""
     existing = session.query(Job).filter(Job.url == job_data["url"]).first()

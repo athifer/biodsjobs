@@ -90,10 +90,19 @@ init_database() {
 initial_ingestion() {
     print_status "Running initial job ingestion (this may take a few minutes)..."
     cd backend
-    python ingestor.py > /dev/null 2>&1
-    JOB_COUNT=$(python -c "from db import get_session; from models import Job; session = get_session(); print(session.query(Job).count())")
+    
+    # Run ingestion with better error handling
+    if python ingestor.py > /tmp/ingestion.log 2>&1; then
+        # Get job count if ingestion was successful
+        JOB_COUNT=$(python -c "from db import get_session, Job; session = get_session(); count = session.query(Job).count(); session.close(); print(count)" 2>/dev/null || echo "0")
+        print_success "Initial ingestion complete - $JOB_COUNT jobs loaded"
+    else
+        print_warning "Job ingestion completed with some errors (check logs for details)"
+        JOB_COUNT=$(python -c "from db import get_session, Job; session = get_session(); count = session.query(Job).count(); session.close(); print(count)" 2>/dev/null || echo "0")
+        print_status "Current job count: $JOB_COUNT jobs"
+    fi
+    
     cd ..
-    print_success "Initial ingestion complete - $JOB_COUNT jobs loaded"
 }
 
 # Test the server
