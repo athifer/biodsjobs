@@ -20,11 +20,14 @@ if __name__ == "__main__":
     # Import the FastAPI app
     from app import app
     
-    print("Starting biodsjobs API server...")
+    # Get port from environment variable or default to 8000
+    port = int(os.environ.get('BIODSJOBS_PORT', 8000))
+    
+    print(f"Starting biodsjobs API server on port {port}...")
     uvicorn.run(
         "app:app",
         host="127.0.0.1",
-        port=8000,
+        port=port,
         reload=True,
         reload_dirs=[backend_dir]
     )

@@ -210,8 +210,11 @@ main() {
     echo "🚀 Start the server:"
     echo "   ./start_server.sh"
     echo
+    echo "🛑 Stop the server:"
+    echo "   ./stop_server.sh (or press Ctrl+C)"
+    echo
     echo "🌐 Access the application:"
-    echo "   Frontend: http://localhost:8000"
+    echo "   Frontend: http://localhost:8000 (or alternative port if 8000 is busy)"
     echo "   API Documentation: http://localhost:8000/docs"
     echo "   Health Check: http://localhost:8000/health"
     echo
@@ -219,7 +222,7 @@ main() {
     echo "   Manual: source .venv/bin/activate && cd backend && python start_server.py"
     echo "   Production: ./start_production.sh"
     echo
-    echo "💡 Note: Always use ./start_server.sh or activate the virtual environment first!"
+    echo "💡 Note: The startup script will automatically find an available port!"
     echo
 }
 

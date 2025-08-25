@@ -104,28 +104,37 @@ python ingestor.py
 
 ### 🚦 Running the Application
 ```bash
-# Option 1: Simple startup (recommended)
+# Option 1: Smart startup (RECOMMENDED) 
 ./start_server.sh
+# ✅ Automatically handles virtual environment
+# ✅ Detects and uses available ports (8000, 8001, 8002, etc.)
+# ✅ Shows helpful status information
 
-# Option 2: Manual with virtual environment
+# Stop the server
+./stop_server.sh
+# ✅ Cleanly stops all BioDSJobs servers
+
+# Option 2: Manual startup
 source .venv/bin/activate
 cd backend
 python start_server.py
 
-# Option 3: Production mode
+# Option 3: Production startup
 ./start_production.sh
+# ✅ Uses Gunicorn for production deployment
 
-# Option 4: Development mode with auto-reload
+# Option 4: Development with auto-reload
 source .venv/bin/activate
+cd backend
 uvicorn app:app --reload --port 8000
 ```
 
 ### 🌐 Access Points
-- **Frontend:** http://localhost:8000
+- **Frontend:** http://localhost:8000 (or alternative port if 8000 is busy)
 - **API Documentation:** http://localhost:8000/docs
 - **Health Check:** http://localhost:8000/health
 
-> **💡 Important:** Always use `./start_server.sh` or activate the virtual environment first with `source .venv/bin/activate` before running any Python commands!
+> **💡 Smart Port Detection:** The startup script automatically finds an available port if 8000 is in use!
 
 ## ⚙️ Configuration
 

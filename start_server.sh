@@ -36,13 +36,27 @@ if ! python -c "import uvicorn" 2>/dev/null; then
     exit 1
 fi
 
+# Check if port 8000 is available, otherwise find an alternative
+PORT=8000
+if lsof -i :$PORT >/dev/null 2>&1; then
+    echo "⚠️  Port $PORT is in use, trying alternative ports..."
+    for alt_port in 8001 8002 8003 8080 3000; do
+        if ! lsof -i :$alt_port >/dev/null 2>&1; then
+            PORT=$alt_port
+            break
+        fi
+    done
+fi
+
 # Start the server
-echo "🚀 Starting server..."
-echo "   Frontend: http://localhost:8000"
-echo "   API Docs: http://localhost:8000/docs"
-echo "   Health:   http://localhost:8000/health"
+echo "🚀 Starting server on port $PORT..."
+echo "   Frontend: http://localhost:$PORT"
+echo "   API Docs: http://localhost:$PORT/docs"
+echo "   Health:   http://localhost:$PORT/health"
 echo ""
 echo "Press Ctrl+C to stop the server"
 echo ""
 
+# Pass the port to the Python script
+export BIODSJOBS_PORT=$PORT
 python start_server.py
