@@ -104,14 +104,19 @@ python ingestor.py
 
 ### 🚦 Running the Application
 ```bash
-# Option 1: Simple startup
+# Option 1: Simple startup (recommended)
+./start_server.sh
+
+# Option 2: Manual with virtual environment
+source .venv/bin/activate
 cd backend
 python start_server.py
 
-# Option 2: Production mode
-./deploy.sh --prod
+# Option 3: Production mode
+./start_production.sh
 
-# Option 3: Development mode with auto-reload
+# Option 4: Development mode with auto-reload
+source .venv/bin/activate
 uvicorn app:app --reload --port 8000
 ```
 
@@ -119,6 +124,8 @@ uvicorn app:app --reload --port 8000
 - **Frontend:** http://localhost:8000
 - **API Documentation:** http://localhost:8000/docs
 - **Health Check:** http://localhost:8000/health
+
+> **💡 Important:** Always use `./start_server.sh` or activate the virtual environment first with `source .venv/bin/activate` before running any Python commands!
 
 ## ⚙️ Configuration
 

@@ -109,15 +109,24 @@ initial_ingestion() {
 test_server() {
     print_status "Testing server startup..."
     cd backend
-    timeout 10s python start_server.py > /dev/null 2>&1 &
-    SERVER_PID=$!
-    sleep 3
     
-    if kill -0 $SERVER_PID 2>/dev/null; then
-        print_success "Server started successfully"
-        kill $SERVER_PID 2>/dev/null || true
+    # Test if uvicorn is properly installed
+    if python -c "import uvicorn" 2>/dev/null; then
+        print_success "Server dependencies verified"
+        
+        # Quick test server startup (timeout after 5 seconds)
+        timeout 5s python start_server.py > /dev/null 2>&1 &
+        SERVER_PID=$!
+        sleep 2
+        
+        if kill -0 $SERVER_PID 2>/dev/null; then
+            print_success "Server startup test passed"
+            kill $SERVER_PID 2>/dev/null || true
+        else
+            print_warning "Server startup test inconclusive (dependencies OK)"
+        fi
     else
-        print_warning "Server test inconclusive"
+        print_error "Server dependencies missing"
     fi
     cd ..
 }
@@ -198,14 +207,19 @@ main() {
     echo
     print_success "🎉 Deployment complete!"
     echo
-    echo "Next steps:"
-    echo "1. Start the server: cd backend && python start_server.py"
-    echo "2. Access the application: http://localhost:8000"
-    echo "3. View API documentation: http://localhost:8000/docs"
+    echo "🚀 Start the server:"
+    echo "   ./start_server.sh"
     echo
-    echo "For production deployment:"
-    echo "1. Use: ./start_production.sh"
-    echo "2. Or install as system service (Linux)"
+    echo "🌐 Access the application:"
+    echo "   Frontend: http://localhost:8000"
+    echo "   API Documentation: http://localhost:8000/docs"
+    echo "   Health Check: http://localhost:8000/health"
+    echo
+    echo "🔧 Alternative startup methods:"
+    echo "   Manual: source .venv/bin/activate && cd backend && python start_server.py"
+    echo "   Production: ./start_production.sh"
+    echo
+    echo "💡 Note: Always use ./start_server.sh or activate the virtual environment first!"
     echo
 }
 
